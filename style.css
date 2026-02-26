@@ -1,0 +1,206 @@
+/* Выравнивание по центру страницы и фон */
+body {
+  background-color: #fefeff;
+  background-image: url('https://www.transparenttextures.com/patterns/cubes.png');
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.my-btn { 
+  margin-right: 5px;           
+  margin-top: 5px;             
+  width: 70px;                 
+  height: 70px;                
+  border-radius: 6px;          
+  border: 1px solid #E1E8EE;   
+  background: #FFFFFF;         
+  color: #333333;              
+  font-size: 32px;
+  cursor: pointer;             
+  user-select: none;        
+} 
+
+.my-btn:hover {
+  background: #F2F6F8; 
+}
+
+.my-btn:active {
+  filter: brightness(90%); 
+}
+
+.my-btn.primary { 
+  background: #1937FF; 
+  color: white;
+  border: none;
+}
+
+.my-btn.primary:hover {
+  background: #102BCC;
+}
+
+.my-btn.secondary { 
+  background: #e0e0f2;
+  color: black;
+  border: none;
+}
+
+.my-btn.secondary:hover {
+  background: #bbbbd3;
+}
+
+.my-btn.execute { 
+  width: 148px;                
+}
+
+.result { 
+  width: 310px;                
+  height: 70px;                
+  margin-bottom: 15px;         
+  padding-right: 15px;         
+  box-sizing: border-box;      
+  background: #f0f4ff;
+  text-align: right;           
+  color: #252630;              
+  font-size: 40px;           
+  line-height: 70px;       
+  border-radius: 6px;
+  font-family: monospace;
+}
+
+.calculator-panel {
+    background: #FFFFFF;
+    padding: 15px;
+    border-radius: 6px;
+    box-sizing: border-box;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.info-panel {
+  background: #FFFFFF;
+  width: 344px;
+  padding: 15px;
+  border-radius: 6px;
+  box-sizing: border-box;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.warehouse-select {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+  border: 1px solid #AAB7C4;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #333333;
+}
+
+.author-details {
+  color: #333333;
+  font-size: 16px;
+}
+
+.author-summary {
+  cursor: pointer;
+  color: #1937FF;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.author-text {
+  margin: 5px 0;
+}
+
+.github-link {
+  display: block;
+  text-align: center;
+  margin-top: 15px;
+  padding: 10px;
+  background-color: #333333;
+  color: #FFFFFF;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.github-link:hover {
+  background-color: #222222;
+}
+
+.theme-btn {
+  background: #FFFFFF;
+  color: #1937FF;
+  padding: 10px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+  font-weight: bold;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.theme-btn:hover {
+  background: #f0f4ff;
+}
+
+.dark-theme {
+  background-color: #1a1a24;
+  background-image: none;
+}
+
+.dark-theme .calculator-panel {
+  background-color: #2b2d38;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+.dark-theme .info-panel {
+  background-color: #2b2d38;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+.dark-theme .result {
+  background-color: #1a1a24;
+  color: #e0e0f2;
+}
+
+.dark-theme .my-btn {
+  background-color: #383b47;
+  border-color: #4a4d5e;
+  color: #e0e0f2;
+}
+
+.dark-theme .my-btn:hover {
+  background-color: #4a4d5e;
+}
+
+.dark-theme .my-btn.secondary {
+  background-color: #4a4d5e;
+  color: #e0e0f2;
+}
+
+.dark-theme .my-btn.secondary:hover {
+  background-color: #5c6075;
+}
+
+.dark-theme .warehouse-select {
+  background-color: #383b47;
+  border-color: #4a4d5e;
+  color: #e0e0f2;
+}
+
+.dark-theme .author-details {
+  color: #e0e0f2;
+}
+
+.dark-theme .theme-btn {
+  background-color: #2b2d38;
+  color: #e0e0f2;
+}
+
+mark {
+    background-color: lightblue;
+}
