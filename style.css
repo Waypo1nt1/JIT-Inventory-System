@@ -107,7 +107,8 @@ body {
 
 .author-summary {
   cursor: pointer;
-  color: black;
+  color: #1937FF;
+  font-weight: bold;
   margin-bottom: 10px;
 }
 
