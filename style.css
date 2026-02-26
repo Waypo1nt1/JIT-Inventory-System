@@ -55,7 +55,7 @@ body {
 }
 
 .my-btn.execute { 
-  width: 148px;                
+  width: 70px;                
 }
 
 .result { 
@@ -107,8 +107,7 @@ body {
 
 .author-summary {
   cursor: pointer;
-  color: #1937FF;
-  font-weight: bold;
+  color: black;
   margin-bottom: 10px;
 }
 
@@ -193,6 +192,10 @@ body {
 }
 
 .dark-theme .author-details {
+  color: #e0e0f2;
+}
+
+.dark-theme .author-summary {
   color: #e0e0f2;
 }
 

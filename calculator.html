@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Калькулятор</title>
   <link rel="stylesheet" href="style.css">
+  <script type="text/javascript" src="script.js"></script>
 </head>
 <body>
   <button id="theme-btn" class="theme-btn">Сменить тему</button>
@@ -14,10 +15,17 @@
     </div>
 
     <div>
-      <div>  
-        <button id="btn_op_clear" class="my-btn secondary">C</button>
-        <button id="btn_op_sign" class="my-btn secondary">+/-</button>
+      <div>
         <button id="btn_op_percent" class="my-btn secondary">%</button>
+        <button id="btn_op_sqrt" class="my-btn secondary">√</button>
+        <button id="btn_op_clear" class="my-btn secondary">C</button>
+        <button id="btn_op_backspace" class="my-btn secondary">←</button>
+      </div>
+
+      <div>  
+        <button id="btn_op_fact" class="my-btn secondary">x!</button>
+        <button id="btn_op_sqr" class="my-btn secondary">x²</button>
+        <button id="btn_digit_000" class="my-btn secondary">000</button>
         <button id="btn_op_div" class="my-btn primary">/</button>
       </div>
 
@@ -43,6 +51,7 @@
       </div>
 
       <div>
+        <button id="btn_op_sign" class="my-btn">+/-</button>
         <button id="btn_digit_0" class="my-btn">0</button>
         <button id="btn_digit_dot" class="my-btn">.</button>
         <button id="btn_op_equal" class="my-btn primary execute">=</button>
@@ -69,11 +78,5 @@
     </details>
 
   </div>
-
-  <script>
-    document.getElementById('theme-btn').onclick = function() {
-      document.body.classList.toggle('dark-theme');
-    };
-  </script>
 </body>
 </html>
