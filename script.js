@@ -115,17 +115,6 @@ window.onload = function(){
     }
 
     document.getElementById("btn_op_fact").onclick = function() { 
-        function getFactorial(n) {
-            if (n < 0) return "Ошибка";
-            if (n === 0 || n === 1) return 1;
-            
-            let result = 1;
-            for (let i = 2; i <= n; i++) {
-                result *= i;
-            }
-            return result;
-        }
-
         if (!selectedOperation) {
             if (a === '') return;
             let num = Math.floor((+a)); 
@@ -169,4 +158,15 @@ window.onload = function(){
     document.getElementById('theme-btn').onclick = function() {
         document.body.classList.toggle('dark-theme');
     };
+
+    function getFactorial(n) {
+            if (n < 0) return "Ошибка";
+            if (n === 0 || n === 1) return 1;
+            
+            let result = 1;
+            for (let i = 2; i <= n; i++) {
+                result *= i;
+            }
+            return result;
+        }
 };
