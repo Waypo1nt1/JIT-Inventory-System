@@ -208,3 +208,7 @@ body {
 mark {
     background-color: lightblue;
 }
+
+#btn_op_mod {
+    font-size: 25px;
+}

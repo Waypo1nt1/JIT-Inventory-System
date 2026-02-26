@@ -47,6 +47,11 @@ window.onload = function(){
         selectedOperation = '/';
     }
 
+    document.getElementById("btn_op_mod").onclick = function() { 
+        if (a === '') return;
+        selectedOperation = 'mod';
+    }
+
     document.getElementById("btn_op_clear").onclick = function() { 
         a = '';
         b = '';
@@ -143,6 +148,9 @@ window.onload = function(){
                 break;
             case '/':
                 expressionResult = (+a) / (+b);
+                break;
+            case 'mod':
+                expressionResult = (+a) % (+b);
                 break;
             default:
                 break;
