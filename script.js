@@ -1,24 +1,24 @@
 window.onload = function(){ 
-    let a = '';                  
-    let b = '';                  
+    let valA = '';  
+    let valB = '';    
     let expressionResult = '';   
     let selectedOperation = null;
 
-    const outputElement = document.getElementById("result");
+    const outputElement = document.getElementById("capacity-display");
     
-    const digitButtons = document.querySelectorAll('[id ^= "btn_digit_"]');
+    const digitButtons = document.querySelectorAll('[id ^= "stock_digit_"]');
 
     function onDigitButtonClicked(digit) {
         if (!selectedOperation) {
-            if ((digit != '.') || (digit == '.' && !a.includes(digit))) { 
-                a += digit;
+            if ((digit != '.') || (digit == '.' && !valA.includes(digit))) { 
+                valA += digit;
             }
-            outputElement.innerHTML = a;
+            outputElement.innerHTML = valA;
         } 
         else {
-            if ((digit != '.') || (digit == '.' && !b.includes(digit))) { 
-                b += digit;
-                outputElement.innerHTML = b;        
+            if ((digit != '.') || (digit == '.' && !valB.includes(digit))) { 
+                valB += digit;
+                outputElement.innerHTML = valB;        
             }
         }
     }
@@ -30,151 +30,155 @@ window.onload = function(){
         }
     });
 
-    document.getElementById("btn_op_mult").onclick = function() { 
-        if (a === '') return;
+    document.getElementById("stock_op_mult").onclick = function() { 
+        if (valA === '') return;
         selectedOperation = 'x';
     }
-    document.getElementById("btn_op_plus").onclick = function() { 
-        if (a === '') return;
+    document.getElementById("stock_op_plus").onclick = function() { 
+        if (valA === '') return;
         selectedOperation = '+';
     }
-    document.getElementById("btn_op_minus").onclick = function() { 
-        if (a === '') return;
+    document.getElementById("stock_op_minus").onclick = function() { 
+        if (valA === '') return;
         selectedOperation = '-';
     }
-    document.getElementById("btn_op_div").onclick = function() { 
-        if (a === '') return;
+    document.getElementById("stock_op_div").onclick = function() { 
+        if (valA === '') return;
         selectedOperation = '/';
     }
 
-    document.getElementById("btn_op_mod").onclick = function() { 
-        if (a === '') return;
-        selectedOperation = 'mod';
+    document.getElementById("stock_op_capacity").onclick = function() { 
+        if (valA === '') return;
+        selectedOperation = 'capacity';
     }
 
-    document.getElementById("btn_op_clear").onclick = function() { 
-        a = '';
-        b = '';
+    document.getElementById("stock_op_clear").onclick = function() { 
+        valA = '';
+        valB = '';
         selectedOperation = '';
         expressionResult = '';
         outputElement.innerHTML = 0;
     }
 
-    document.getElementById("btn_op_sign").onclick = function() { 
+    document.getElementById("stock_op_sign").onclick = function() { 
         if (!selectedOperation) {
-            if (a === '') return;
-            a = ((+a) * -1).toString();
-            outputElement.innerHTML = a;
+            if (valA === '') return;
+            valA = ((+valA) * -1).toString();
+            outputElement.innerHTML = valA;
         } 
         else {
-            if (b === '') return;
-            b = ((+b) * -1).toString();
-            outputElement.innerHTML = b;
+            if (valB === '') return;
+            valB = ((+valB) * -1).toString();
+            outputElement.innerHTML = valB;
         }
     }
 
-    document.getElementById("btn_op_percent").onclick = function() { 
+    document.getElementById("stock_op_percent").onclick = function() { 
         if (!selectedOperation) {
-            if (a === '') return;
-            a = ((+a) / 100).toString();
-            outputElement.innerHTML = a;
+            if (valA === '') return;
+            valA = ((+valA) / 100).toString();
+            outputElement.innerHTML = valA;
         } else {
-            if (b === '') return;
-            b = ((+b) / 100).toString();
-            outputElement.innerHTML = b;
+            if (valB === '') return;
+            valB = ((+valB) / 100).toString();
+            outputElement.innerHTML = valB;
         }
     }
 
-    document.getElementById("btn_op_backspace").onclick = function() { 
+    document.getElementById("stock_op_backspace").onclick = function() { 
         if (!selectedOperation) {
-            a = a.slice(0, -1);
-            outputElement.innerHTML = a || '0';
+            valA = valA.slice(0, -1);
+            outputElement.innerHTML = valA || '0';
         } else {
-            b = b.slice(0, -1);
-            outputElement.innerHTML = b || '0';
+            valB = valB.slice(0, -1);
+            outputElement.innerHTML = valB || '0';
         }
     }
 
-    document.getElementById("btn_op_sqrt").onclick = function() { 
+    document.getElementById("stock_op_sqrt").onclick = function() { 
         if (!selectedOperation) {
-            if (a === '') return;
-            a = Math.sqrt((+a)).toString();
-            outputElement.innerHTML = a;
+            if (valA === '') return;
+            valA = Math.sqrt((+valA)).toString();
+            outputElement.innerHTML = valA;
         } else {
-            if (b === '') return;
-            b = Math.sqrt((+b)).toString();
-            outputElement.innerHTML = b;
+            if (valB === '') return;
+            valB = Math.sqrt((+valB)).toString();
+            outputElement.innerHTML = valB;
         }
     }
 
-    document.getElementById("btn_op_sqr").onclick = function() { 
+    document.getElementById("stock_op_sqr").onclick = function() { 
         if (!selectedOperation) {
-            if (a === '') return;
-            a = ((+a) * (+a)).toString();
-            outputElement.innerHTML = a;
+            if (valA === '') return;
+            valA = ((+valA) * (+valA)).toString();
+            outputElement.innerHTML = valA;
         } else {
-            if (b === '') return;
-            b = ((+b) * (+b)).toString();
-            outputElement.innerHTML = b;
+            if (valB === '') return;
+            valB = ((+valB) * (+valB)).toString();
+            outputElement.innerHTML = valB;
         }
     }
 
-    document.getElementById("btn_op_fact").onclick = function() { 
+    document.getElementById("stock_op_fact").onclick = function() { 
         if (!selectedOperation) {
-            if (a === '') return;
-            let num = Math.floor((+a)); 
-            a = getFactorial(num).toString();
-            outputElement.innerHTML = a;
+            if (valA === '') return;
+            let num = Math.floor((+valA)); 
+            valA = getFactorial(num).toString();
+            outputElement.innerHTML = valA;
         } else {
-            if (b === '') return;
-            let num = Math.floor((+b));
-            b = getFactorial(num).toString();
-            outputElement.innerHTML = b;
+            if (valB === '') return;
+            let num = Math.floor((+valB));
+            valB = getFactorial(num).toString();
+            outputElement.innerHTML = valB;
         }
     }
 
-    document.getElementById("btn_op_equal").onclick = function() { 
-        if (a === '' || b === '' || !selectedOperation) return;
+    document.getElementById("stock_op_equal").onclick = function() { 
+        if (valA === '' || valB === '' || !selectedOperation) return;
 
         switch(selectedOperation) { 
             case 'x':
-                expressionResult = (+a) * (+b);
+                expressionResult = (+valA) * (+valB);
                 break;
             case '+':
-                expressionResult = (+a) + (+b);
+                expressionResult = (+valA) + (+valB);
                 break;
             case '-':
-                expressionResult = (+a) - (+b);
+                expressionResult = (+valA) - (+valB);
                 break;
             case '/':
-                expressionResult = (+a) / (+b);
+                expressionResult = (+valA) / (+valB);
                 break;
-            case 'mod':
-                expressionResult = (+a) % (+b);
+            case 'capacity':
+                if ((+valB) === 0) {
+                    expressionResult = "Ошибка";
+                } else {
+                    expressionResult = Math.floor((+valA) / (+valB));
+                }
                 break;
             default:
                 break;
         }
 
-        a = expressionResult.toString();
-        b = '';
+        valA = expressionResult.toString();
+        valB = '';
         selectedOperation = null;
 
-        outputElement.innerHTML = a;
+        outputElement.innerHTML = valA;
     }
 
-    document.getElementById('theme-btn').onclick = function() {
+    document.getElementById('theme-switch-btn').onclick = function() {
         document.body.classList.toggle('dark-theme');
     };
 
     function getFactorial(n) {
-            if (n < 0) return "Ошибка";
-            if (n === 0 || n === 1) return 1;
-            
-            let result = 1;
-            for (let i = 2; i <= n; i++) {
-                result *= i;
-            }
-            return result;
+        if (n < 0) return "Ошибка";
+        if (n === 0 || n === 1) return 1;
+        
+        let result = 1;
+        for (let i = 2; i <= n; i++) {
+            result *= i;
         }
+        return result;
+    }
 };
