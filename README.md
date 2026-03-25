@@ -1,482 +1,839 @@
-# Управление складскими запасами по системе "Точно в срок" (Just-in-Time)
+# ЛР 3. Простое веб-приложение. Верстка
 
-
-# ЛР 1. Calculator. HTML/CSS
-
-**Цель** данной лабораторной работы - знакомство с инструментами построения пользовательских интерфейсов web-сайтов: HTML, CSS. В ходе выполнения работы, вам предстоит ознакомиться с кодом реализации простого калькулятора,  и затем выполнить задания по варианту.
-
-![Фото 1](assets/prototype.png)
+**Цель** данной лабораторной работы - знакомство с node, npm, написание простого приложения на JavaScript. В ходе выполнения работы, вам предстоит ознакомиться с кодом реализации простого интерфейса и вывода данных, и затем выполнить задания по варианту.
 
 ## План
 
-1. HTML- разметка
-2. Базовая структура HTML-документа
-3. Создание проекта
-4. Верстка калькулятора
-5. CSS
-6. Применение CSS к HTML-документу
-7. Стилизация верстки калькулятора с помощью CSS
-8. Задание
+1. Инструменты для работы
+2. Что такое node, npm и package.json
+3. Как работать с html в JS
+4. Инициализация проекта
+5. Создание главной страницы, подключение bootstrap
+6. Простая кнопка на JavaScript
+7. Структурирование проекта
+8. Верстка главной страницы
+9. Верстка страницы продукта
 
-## 1. HTML-разметка
+## 1. Инструменты для работы
 
-HTML - это язык разметки, с помощью которого описывается содержимое веб-страницы: текстовые поля, таблицы, кнопки, заголовки, ссылки, в общем - все, что пользователь видит на странице. Для использования HTML-элементов на странице используются тэги. В основном на каждый элемент в документе приходится по два тэга: открывающий и закрывающий, но для обозначения некоторых элементов достаточно только открывающего. У тэгов могут быть атрибуты, с помощью которых задается дополнительная информация об html-элементе. Синтаксис объявления html-элемента выглядит примерно так:
+Для работы будем использовать инструменты из предыдущих лабораторной работы: [VS Code][vs-code] + [Live Server][vs-code-live-server].
 
-```html
-<тэг атрибут="значение_атрибута">Содержимое тэга</тэг>
+**Перед началом работы необходимо установить на свой компьютер [Node.js][node-install].**
+
+## 2. Что такое node, npm и package.json
+
+### Node.js
+
+Наш JavaScript код, который мы писали в предыдущих лабораторных, исполняется в браузере. В браузере у нас есть компилятор JavaScript кода в машинных код, в Google Chrome это движок [V8][v8]. Если мы хотим запускать код на нашем компьютере, а не в браузере, то нам нужно использовать [Node.js][node]. Node - это программная платформа, которая позволяет компилировать JavaScript код в машинный на нашем компьютере. Node.js добавляет возможность нам взаимодействовать с утройствами ввода-вывода, подключать внешние библиотеки. На нем в основном пишут веб-сервера, но есть возможность разрабатывать и десктопные оконные приложения и даже программировать микроконтроллеры.
+
+### Установка Node.js 
+- для установки node.js на macOS используйте [Homebrew](https://brew.sh)
+- для установки node.js на Windows используйте [nvm](https://learn.microsoft.com/ru-ru/windows/dev-environment/javascript/nodejs-on-windows)
+
+### Npm
+
+В любом языке программирования нам нужно уметь работать с внешними библиотеками. На фронтенде для этого используется пакетный менеджер [Npm][npm]. С помощью npm мы можем скачивать нужные нам пакеты, которые потом будем использовать в нашем приложении. Все наши библиотеки скачиваются в специальную папку `node_modules`, вы увидите ее у себя в проекте, когда скачаете первую библиотеку.
+
+### Package.json и package-lock.json
+
+[Package.json][package.json] - это основной файл в нашем приложении, который хранит всю информацию о проекте. В этом файле хранится название проекта, описания, версия, скрипты и многое другое. Именно в этом файле храниться информация о всех пакетах, которые мы поставили через npm, и версия этих зависимостей.
+
+[Package-lock.json][package-lock.json] - это файл, который хранит дерево зависимостей. Библиотеки, которые мы устанавливаем, могут иметь вложенные зависимости и этот файл хранит полное дерево.
+
+## 3. Как работать с html в JS
+
+В прошлых лабораторных работах мы уже работали с HTML версткой из нашего JavaScript кода, для этого у нас есть общирное API по работе с [DOM деревом][dom-api]. Сегодня мы будем использовать **getElementById** и **insertAdjacentHTML**, но функций намного больше.
+
+## 4. Инициализация проекта
+
+* Создаем пустую папку и открываем ее в VS Code.
+* Инициализируем проект в npm с помощью команды `npm init`.
+
+При инициализации проекта у нас будут спрашивать много вопросов, но их все можно пропустить нажав `Enter`. В конце у нас появится настроенный файл `package.json`.
+
+Во все проекты принято добавлять `.gitignore` файл, который не будет добавлять лишнее в наш git репозиторий. Подробнее о `.gitignore` можно почитать [тут][about-gitignore].
+
+* Создаем файл `.gitignore` и копируем туда содержимое [файла](./assets/.gitignore).
+
+Мы создали проект, который состоит из файлов `package.json` и `.gitignore`. Можно приступать к написанию основного кода.
+
+***По итогу мы имеем следующую структуру проекта.***
+
+```bash
+├── .gitignore
+├── package.json
 ```
 
-Рассмотрим некоторые html-элементы и их тэги:
+## 5. Создание главной страницы, подключение bootstrap
 
-### Текст
+### Создание index.html
 
-1. В html присутствуют 6 тэгов для выделения **заголовков**:
+Мы создали проект, теперь давайте начнем писать код. Когда пользователь заходит на сайт, то ему сначала подгружается файл `index.html` с базовой версткой, а потом уже подгружаются стили и скрипты. Если в вашем приложении не будет `index.html` файла, то браузер не сможет загрузить его.
 
-    ```html
-    <h1>Этот текст будет отображен браузером как заголовок первого уровня (крупнейший)</h1>
-    <h2>А этот - как заголовок второго уровня (поменьше) </h2>
-    ...
-    <h6>Самый мелкий заголовок</h6>
-    ```
-
-2. текст можно форматировать:
-
-    ```html
-    <i> Этот текст будет отображен курсивом </i>
-    <b> этот будет выделен жирным </b>
-    <u> а этот будет подчеркнут </u>
-    ```
-
-3. текст можно группировать в параграф (абзац):
-
-    ```html
-    <p>Это параграф какого-то текста.</p>
-    <p>Следующий параграф текста</p>
-    ```
-
-### Списки
-
-1. ненумерованный список (unordered list UL)
-
-    ```html
-    <ul> <!-- начинаем ненумерованный список-->
-      <li> первый элемент списка </li>
-      <li> второй элемент списка </li>
-      <li> третий элемент списка </li>
-    </ui> <!-- список закончен -->
-    ```
-
-2. Нумерованный список (ordered list OL):
-
-    ```html
-    <ol>
-      <li> первый элемент списка </li>
-      <li> второй элемент списка </li>
-    </ol>
-    ```
-
-### Гиперссылки
-
-1. ссылка на ресурс
-
-    Для создания ссылки используется парный тэг `<a>`. У него присутствует несколько атрибутов, позволяющих ссылку настроить:
-
-    - `href`- адрес ресурса, на который ссылка ссылается, например <https://google.com>
-    - `target` - в каком фрейме (окне) открывать документ, по умолчанию стоит в текущем.
-
-        ```html
-        <!-- переход по этой ссылке откроет google.com в текущем окне -->
-        <a href="https://google.com"> Click me! </a>
-        
-        <!-- эта ссылка открое google.com в новом окне браузера -->
-        <a href="https://google.com" target="_blank"> Click me! </a>
-        ```
-
-2. якорь
-
-    Внутри HTML-страницы с помощью того-же тэга `<a>` можно расставить так называемые “якоря”. Грубо говоря, это - закладки на странице. Якоря затем можно использовать в гиперссылках для перемещения к определенному элементу страницы, где установлен якорь.
-
-    ```html
-    <p>
-      <a name="some_paragraph"></a>   <!-- устанавливаем якорь -->
-      Lorem Ipsum is simply dummy text of ...
-    </p>
-    
-    <p>
-    Следующий параграф текста, в котором мы установим ссылку на якорь.
-    <a href="#some_paragraph">При нажатии на эту ссылку, пользователь будет перенаправлен к месту установки якоря.</a>
-    </p>
-    ```
-
-## 2. Базовая структура HTML-документа
-
-Простейший html-документ выглядит следующим образом:
-
-```html
-<!DOCTYPE html> <!--Указание браузеру, какой стандарт HTML использовать (сейчас HTML 5 по умолчанию)-->
-<html lang="ru"> <!--Начало html-блока. Можно указать язык, чтобы избежать ошибок отображения текста-->
-
-<!-- секция head, как правило, используется для описания служебной и мета информации,
-    в ней также можно указывать ссылки на нужные странице ресурсы, например, шрифты, скрипты и т.д.-->
-<head>
-  <meta charset="UTF-8">             <!--указание кодировки символов-->
-  <title>Моя первая страница</title> <!--Заголовок страницы, который будет отображен во вкладке браузера-->
-</head>
-
-<!--секция body - это тело документа. Здесь размещается вся информация, которая будет показана на странице-->
-<body>
-    <h2>Lorem Ipsum</h2>
-</body>
-
-</html> <!--конец html-документа -->
-```
-
-HTML-элементов существует большое количество, мы рассмотрели лишь небольшую часть. Почитать про другие HTML-тэги, чтобы научиться вставлять изображения, таблицы, поля ввода, формы и прочее можно [здесь](https://www.w3schools.com/html/default.asp).
-
-## 3. Создание проекта
-
-Для данной лабораторной работы будем использовать [VS Code](https://code.visualstudio.com).
-
-- Заходим в меню создания проекта и выбираем: **Создать файл**
-- Создайте HTML-файл: **calculator.html**
-
-## 4. Верстка калькулятора
-
-В HTML-файл поместите следующее содержимое. Здесь определёны все составляющие калькулятора (кнопки и поле вывода результата вычислений). Для каждого активного элемента определен атрибут `id` ( уникальный идентификатор), он потребуется в дальнейшем, чтобы обращаться к элементам из JavaScript.
+* Создаем файл `index.html`
 
 ```html
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-  <title>Калькулятор</title>
+    <meta charset="UTF-8">
+    <title>Simple App</title>
 </head>
-
 <body>
-  <div> <!-- div - это базовый html-контейнер, который может содержать в себе другие html-элементы. -->
-    
-    <!-- блок с экраном калькулятора, где будет выводиться результат вычислений. -->
-    <div id="result">
-      0
-    </div>
-
-    <!-- блок с кнопками калькулятора. -->
-    <div>
-      <!--горизонтальный ряд из четырех кнопок-->
-      <div>  
-        <button id="btn_op_clear">C</button>    <!-- про тэг кнопки: https://www.w3schools.com/tags/tag_button.asp -->
-        <button id="btn_op_sign">+/-</button>
-        <button id="btn_op_percent">%</button>
-        <button id="btn_op_div">/</button>
-      </div>
-
-      <div>
-        <button id="btn_digit_7">7</button>
-        <button id="btn_digit_8">8</button>
-        <button id="btn_digit_9">9</button>
-        <button id="btn_op_mult">x</button>
-      </div>
-
-      <div>
-        <button id="btn_digit_4">4</button>
-        <button id="btn_digit_5">5</button>
-        <button id="btn_digit_6">6</button>
-        <button id="btn_op_minus">-</button>
-      </div>
-
-      <div>
-        <button id="btn_digit_1">1</button>
-        <button id="btn_digit_2">2</button>
-        <button id="btn_digit_3">3</button>
-        <button id="btn_op_plus">+</button>
-      </div>
-
-      <div>
-        <button id="btn_digit_0">0</button>
-        <button id="btn_digit_dot">.</button>
-        <button id="btn_op_equal">=</button>
-      </div>
-    </div>
-  </div>
+<div>Hello world!</div>
 </body>
 </html>
 ```
 
-Если открыть этот HTML-документ в браузере, мы получим не самый изящный калькулятор. Чтобы задать параметры внешнего вида элементов, необходимо использовать CSS.
+Если мы откроем html файл, то увидим страницу с надписью **Hello world!**.
 
-![Фото 2](assets/nocss.png)
+![Фото 1](./assets/photo1.png)
 
-## 5. CSS
+Для того, чтобы было удобнее работать мы можем воспользоваться расширением Live Server, для этого открываем файл `index.html` и нажимаем `Go Live` в правом нижнем углу.
 
-CSS (***Cascading Style Sheets***) - каскадные таблицы стилей. С помощью этого инструмента мы можем кастомизировать отображение различных HTML-элементов на странице, например сделать кнопки круглыми или задать им определенный цвет.
+### Подключение bootstrap
 
-Рассмотрим синтаксис. CSS-правило (стиль) содержит селектор и блок объявлений. Селектор определяет к каким HTML-элементам нужно применить перечисленные в блоке объявлений свойства.
+Для того, чтобы было проще верстать используем библиотеку css стилей [bootstrap]. Это библиотека стилей, в которой можно брать верстку и применять у себя на сайте. Для подключения установим библиотеку через [npm][bootstrap-npm].
 
-```css
-имя_селектора {          
-  свойство1: значение;
-  свойство2: значение;          
-  ...
-}                       
-```
+* Устанавливаем библиотеку с помощью команды `npm i bootstrap`
 
-1. **CSS element Selector**
+После установки библиотеки можно увидеть, что у нас появилась папка `node_modules` и файл `package-lock.json`. О них мы говорили выше. Так же изменился файл `package.json`, в нем появилась наша библиотека с зафиксированной версией.
 
-    Существует несколько видов селекторов. Например, если мы хотим задать одинаковые правила для всех заголовков первого уровня, мы можем создать CSS-правило с именем селектора `h1`. Также можно поступить и с другими HTML-элементами.
-
-    ```css
-    /* css */
-    h1 {               
-      color: blue;    
-      font-size: 12px;            
-    } 
-    ```
-
-    ```html
-    <!-- HTML -->
-    <body>
-      <h1>Заголовок</h1>
-      <h1>Еще заголовок</h1>
-    </body>
-    ```
-
-    Теперь, при использовании тэга `<h1>` в HTML документе, ко всем заголовкам первого уровня будут применены заданные правила: синий цвет и размер шрифта в 12px.
-
-    ![Фото 3](assets/css-header.png)
-
-2. **CSS id Selector**
-
-    Селектор по идентификатору позволяет задать правила для конкретного HTML-элемента с конкретным уникальным идентификатором. Имя такого селектора совпадает с идентификатором HTML-элемента, но начинается с решётки:
-
-    ```html
-    <!-- HTML -->
-    
-    <div id="my_custom_element">
-      Lorem Ipsum is simply dummy text
-    </div>
-    ```
-
-    ```css
-    /*  css */
-    #my_custom_element {
-          text-align: center;
-          color: red;
-    }
-    ```
-
-3. **CSS class Selector**
-
-    У HTML-элементов есть атрибут **class**. Классовый селектор применяет заданные CSS свойства к тем HTML-элементам, которые принадлежат конкретному классу. Причем один HTML-элемент может принадлежать сразу к нескольким классам. Имя такого селектора начинается с точки.
-
-    ```css
-    /* css */
-    
-    /* синий текст по центру */
-    .my-centered-blue { 
-      text-align: center;
-      color: blue;         
-    }
-    
-    /* огромный текст курсивом */
-    .my-large-italic { 
-      font-size: xxx-large;
-      font-style: italic;
-    }
-    ```
-
-    ```html
-    <!-- HTML -->
-    
-    <p class="my-centered-blue my-large-italic">
-      Этот параграф принадлежит к двум классам, поэтому комбинирует их свойства
-    </p>
-    <div class="my-large-italic">
-      Этот блок принадлежит только к классу my-large-italic
-    </div>
-    ```
-
-    ![Фото 4](assets/css-selectors.png)
-
-Также можно создать классовый селектор, дейсвующий только на конкретный тип HTML-элементов, например на параграфы:
-
-```css
-/* css */
-
-p.my-large-italic { 
-  font-size: xxx-large;
-  font-style: italic;
-}
-```
-
-## 6. Применение CSS к HTML-документу
-
-Существует несколько вариантов встраивания CSS-правил в HTML-документ. CSS можно расположить в секции `<head>`, в рамках тэга `<style>`
+* Проверим, что мы успешно скачали bootstrap, для этого добавим кнопку из библиотеки компонентов в `index.html`
 
 ```html
-<!-- HTML -->
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <title>калькулятор</title>
-  <style>
-    .my-center-red { 
-      color: red;
-      text-align: center;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Simple App</title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
 </head>
-
 <body>
-    <p class="my-center-red"> Hello! </p>
+<button type="button" class="btn btn-primary">Hello world!</button>
+
+<script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+</html>
 ```
 
-Второй, более предпочтительный, вариант - описание CSS стилей в отдельном файле, подключить который к HTML-документу можно сославшись на него в секции `head`:
+![Фото 2](./assets/photo2.png)
+
+Как мы видим наша кнопка видна, значит мы все подключили успешно и можно переходить к написанию JavaScript кода.
+
+***По итогу мы имеем следующую структуру проекта.***
+
+```bash
+├── node_modules/
+├── .gitignore
+├── package-lock.json
+├── package.json
+├── index.html
+```
+
+### 6. Простая кнопка на JavaScript
+
+У нас есть приложение, которое имеет главную страницу. Сейчас у нас кнопка находится в файле `index.html`, попробуем ее из HTML файла и нарисовать с помощью JS. Для того, чтобы в JS получить доступ к нашему HTML дереву у нас должен быть корневой элемент. Он будет родителем и к нему мы будем добавлять остальные компоненты.
+
+* Добавляем корневой элемент в `index.html`
 
 ```html
-<head> 
-  <title>калькулятор</title>
-  <!-- указываем, что файл style.css содержит таблицу стилей (stylesheet) -->
-  <link rel="stylesheet" href="style.css"> 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple App</title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
 </head>
+<body>
+<div id="root"></div>
+
+<script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
 ```
 
-Браузер, читая html документ подгрузит стили из этого файла.
+Теперь у нас есть корневой элемент, к котором мы можем обратиться из нашего JavaSctip. Создадим js файл, подключим его и попробуем обратиться к HTML дереву.
 
-Также есть возможность задать стиль для элемента напрямую через атрибут style, но делать так не рекомендуется:
+* Создаем файл `main.js`, для доступа к HTML будем использовать **getElementById**
+
+```js
+const root = document.getElementById('root');
+```
+
+У нас есть простой JS файл, который получает корневой элемент. Для того, чтобы этот файл загрузился в браузер необходимо добавить его в наш `index.html`
+
+* Подключаем этот файл в `index.html`
 
 ```html
-<button style="margin-right: 5px; backgroud: red;">Красная кнопка</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple App</title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div id="root"></div>
+<script src="main.js" type="module"></script>
+
+<script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
 ```
 
-## 7. Стилизация верстки калькулятора с помощью CSS
+У нас в `main.js` файле есть корневой элемент. Попробуем в него добавить нашу кнопку, которую раньше мы создавали в HTML.
 
-Приступим к стилизации созданной ранее верстки калькулятора. Создайте css-файл и пропишите в нем стили для элементов калькулятора: кнопок и окна вывода.
+* Добавляем кнопку в `main.js`
 
-```css
+```js
+const root = document.getElementById('root');
 
-/* опишем базовый стиль кнопки калькулятора */
-.my-btn { 
-  margin-right: 5px;           /* задаем отступ от кнопки справа */
-  margin-top: 5px;             /* задаем отступ от кнопки сверху*/
-  width: 50px;                 /* задаем ширину кнопки */
-  height: 50px;                /* задаем высоту кнопки */
-  border-radius: 50%;          /* округляем кнопку */
-  border: none;                /* отключаем обводку */
-  background: #515151;         /* задаем серый цвет кнопки */
-  color: white;                /* задаем белый цвет текста внутри кнопки */
-  font-size: 1.5rem;           /* увеличим размер шрифта */
-  font-family: Arial, Helvetica, sans-serif; /* сменим шрифт */
-  cursor: pointer;             /* при наведении на кнопку курсор будет изменен
-                                  со стрелки на 'указательный палец' */
-  user-select: none;           /* отключаем возможность выделить текст внутри кнопки */
-} 
+root.insertAdjacentHTML('beforeend', '<button type="button" class="btn btn-primary">Hello world 2!</button>')
+```
 
-/* hover - это состояние элемента, когда на него наведен курсор */
-.my-btn:hover {
-  background: darkgray; /* при наведение курсора на кнопку, она будет окрашена в серый */
-}
+![Фото 3](./assets/photo3.png)
 
-/* active - это состояние активации элемента. В случае кнопки - нажатие на нее */
-.my-btn:active {
-  filter: brightness(130%); /* увеличим интенсивность цвета для эффекта вспышки */
-}
+Как мы видим наша кнопка появилась на экране, значит мы правильно написали на JavaScript файл. Теперь попробуем написать что-то посложнее.
 
-/* селектор для кнопок первостепенных операций */
-.my-btn.primary { 
-  background: #ff9801; /* цвет кнопки оранжевый */
-}
+***По итогу мы имеем следующую структуру проекта.***
 
-/* селектор для кнопок второстепенных операций */
-.my-btn.secondary { 
-  background: #a6a6a6; /* цвет кнопки сервый */
-}
+```bash
+├── node_modules/
+├── .gitignore
+├── package-lock.json
+├── package.json
+├── index.html
+├── main.js
+```
 
-/* селектор для кнопки расчета выражения (=) */
-.my-btn.execute { 
-  width: 110px;          /* сделаем кнопку шире других */
-  border-radius: 34px;   /* подкорректируем округлость */
-}
+### 7. Структурирование проекта
 
-/* селектор для поля вывода результата */
-.result { 
-  width: 220px;
-  height: 50px;
-  margin-bottom: 15px;         /* отступ снизу */
-  padding-right: 10px;         /* выступ справа */
-  background: rgb(73, 73, 73); /* цвет можно задавать и таким образом */
-  text-align: right;           /* примагнитим текст к правой стороне */
-  color: #ffffff;              /* цвет текста белый */
-  font-size: 1.5rem;
-  font-family: Arial, Helvetica, sans-serif;
+#### Структура проекта
+
+Мы написали простую страничку на JS, но мы же не сможем вечно все писать в одном файле. Нам необходимо как-то разбивать наш проект по мелким файлам.
+
+Сейчас мы имеем следующее разбиение по файлам:
+
+```bash
+├── node_modules/
+├── .gitignore
+├── package-lock.json
+├── package.json
+├── index.html
+├── main.js
+```
+
+В фронтенде верстку разделяют на страницы (Pages) и компоненты (Components). Страница - это отдельная страница как наша главная. Компонент - маленькие блоки из которых состоит страница.
+
+Добавим дополнительные папки в нашу структуру:
+
+* `pages` - тут будут лежать наши страницы
+* `components` - тут будут лежать наши компоненты
+
+Теперь наша структура выглядит следующим образом:
+
+```bash
+├── node_modules/
+├── .gitignore
+├── package-lock.json
+├── package.json
+├── pages/
+├── components/
+├── index.html
+├── main.js
+```
+
+#### Страница на новой архитектуре
+
+Теперь попробуем переписать нашу страницу под новую архитектуру.
+
+* Создаем нашу страницу `pages/main/index.js`
+
+```js
+export class MainPage {
+    
 }
 ```
 
-Теперь заполним атрибут `class` у HTML-элементов калькулятора, чтобы применить к ним созданные стили:
+Наша страница должна рендериться в root элемент. Добавим конструктор, где будем получать родительский элемент и сохранять его.
 
-1. Кнопки циферблата: 0-9 и точка относятся к классу `my-btn`:
+* Добавляем конструктор
 
-    ```html
-    ...
-    <button id="btn_digit_7" class="my-btn">7</button>
-    <button id="btn_digit_8" class="my-btn">8</button>
-    <button id="btn_digit_9" class="my-btn">9</button>
-    ...
-    ```
+```js
+export class MainPage {
+    constructor(parent) {
+        this.parent = parent;
+    }
+}
+```
 
-2. Кнопки второстепенных операций (C, +/-, %) принадлежат классам `my-btn` и `secondary`:
+У нас есть родительский элемент, но наш нужна функция при вызове которой мы будем рендерить эту страницу.
 
-    ```html
-    ...
-    <button id="btn_op_clear" class="my-btn secondary">C</button>
-    <button id="btn_op_sign" class="my-btn secondary">+/-</button>
-    <button id="btn_op_percent" class="my-btn secondary">%</button>
-    ...
-    ```
+* Добавляем функцию рендера
 
-3. Кнопки первостепенных операций принадлежат к классам `my-btn` и `primary`:
+```js
+export class MainPage {
+    constructor(parent) {
+        this.parent = parent;
+    }
+    
+    render() {
+        
+    }
+}
+```
 
-    ```html
-    <button id="btn_op_mult" class="my-btn primary">x</button>
-    ...
-    <button id="btn_op_minus" class="my-btn primary">-</button>
-    ...
-    <button id="btn_op_plus" class="my-btn primary">+</button>
-    ```
+* Добавляем логику рендера кнопки на странице
 
-4. Кнопка “=” дополнительно относится еще и к классу `execute`:
+```js
+render() {
+    this.parent.insertAdjacentHTML('beforeend', '<button type="button" class="btn btn-primary">Hello world 3!</button>');
+}
+```
 
-    ```html
-    <button id="btn_op_equal" class="my-btn primary execute">=</button>
-    ```
+У нас есть класс страницы, теперь необходимо добавить вызов этого класса в нашем основном файле `main.js`
 
-5. Блок с экраном калькулятора относим к классу `result`:
+* Добавляем вызов файла в `main.js`
 
-    ```html
-    <div id="result" class="result">
-      0
-    </div>
-    ```
+```js
+import {MainPage} from "./pages/main/index.js";
 
-Если все выполнено верно, изображение страницы должно соответствовать требуемому.
+const root = document.getElementById('root');
 
-## 8. Задания для самостоятельной проработки
+const mainPage = new MainPage(root);
+mainPage.render();
+```
 
-1. Поменяйте цветовую палитру калькулятора с оранжево-серой на любую другую;
-2. Сделайте фон калькулятора темным (наподобие ночной темы);
-3. Сделайте кнопки квадратными вместо круглых.;
-4. Измените цвет вывода результата на любой другой;
-5. Сделайте окно вывода со скруглеными краями;
-6. Поменяйте шрифт цифр;
-7. Сделайте шрифт более толстым;
-8. Измените цвет при наведении мышки на кнопку на другой;
-9. Добавьте надпись внизу "ЛР выполнена ФИО";
-10. Выровняйте калькулятор по центру;
-11. Увеличьте размер окна вывода;
-12. Добавьте кнопку для смены темы (смена цвета фона);
-13. Сделайте шрифт тоньше;
-14. Смените цвет шрифта;
-15. Добавьте любое изображение на фон;
-16. Добавьте кнопку со ссылкой на GitHub;
-17. Сделайте поле с выпадающим списком;
-18. Сделайте сворачивающиеся и разворачивающиеся подробности (Автор -> ФИО, Группа);
-19. Добавьте поле с целью ЛР и подсветить слова: знакомство, HTML, CSS (с помощью тега).
-20. Скопируйте для калькулятора стилистику веб-ресурса, которая не будет повторяться с остальными студентами
+![Фото 4](./assets/photo4.png)
+
+Все работает, кнопка видна на странице. Мы сказали, что у нас страница должна состоять из мелки компонентов, а сейчас верстка кнопки происходит на странице. Вынесем в компонент и добавим ее на странице.
+
+* Создаем наш компонент `components/button/index.js`
+
+```js
+export class ButtonComponent {
+    constructor(parent) {
+        this.parent = parent;
+    }
+
+    render() {
+        this.parent.insertAdjacentHTML('beforeend', '<button type="button" class="btn btn-primary">Hello world 4!</button>');
+    }
+}
+```
+
+* Подключаем наш компонент на странице
+
+```js
+import {ButtonComponent} from "../../components/button/index.js";
+
+// ...
+
+render() {
+    const button = new ButtonComponent(this.parent)
+    button.render()
+}
+```
+
+![Фото 5](./assets/photo5.png)
+
+Все работает, кнопка видна на странице. Теперь сделаем нашу страницу такой, чтобы она была готова к нашим данным.
+
+***По итогу мы имеем следующую структуру проекта.***
+
+```bash
+├── node_modules/
+├── .gitignore
+├── package-lock.json
+├── package.json
+└── pages
+    └── main
+        └── index.js
+└── components
+    └── button
+        └── index.js
+├── index.html
+├── main.js
+```
+
+## 8. Верстка главной страницы
+
+Теперь добавим на главную страницу список карточек. Для отображения будем использовать [карточки из bootstrap][bootstrap-card].
+
+* Создаем компонент карточки `components/product-card/index.js`
+
+```js
+export class ProductCardComponent {
+    constructor(parent) {
+        this.parent = parent;
+    }
+
+    render() {
+        
+    }
+}
+```
+
+* Добавляем верстку карточки. Для удобства вынесем верстку в отдельную функцию
+
+```js
+getHTML() {
+    return (
+        `
+            <div class="card" style="width: 300px;">
+                <img class="card-img-top" src="https://i.pinimg.com/originals/c9/ea/65/c9ea654eb3a7398b1f702c758c1c4206.jpg" alt="картинка">
+                <div class="card-body">
+                    <h5 class="card-title">Акция</h5>
+                    <p class="card-text">Вот тут информация об акции</p>
+                    <button class="btn btn-primary"">Нажми на меня</button>
+                </div>
+            </div>
+        `
+    )
+}
+
+render() {
+    const html = this.getHTML()
+    this.parent.insertAdjacentHTML('beforeend', html)
+}
+```
+
+* Теперь добавим наш компонент на страницу
+
+```js
+import {ProductCardComponent} from "../../components/product-card/index.js";
+
+// ...
+
+render() {
+    const productCard = new ProductCardComponent(this.parent)
+    productCard.render()
+}
+```
+
+![Фото 6](./assets/photo6.png)
+
+Отлично, у нас отображается карточка. Сейчас у нас данные захардкожены в компонент, а нам бы хотелось прокидывать данные в компонент.
+
+* Добавим отрисовку компонента из данных
+
+```js
+getHTML(data) {
+    return (
+        `
+            <div class="card" style="width: 300px;">
+                <img class="card-img-top" src="${data.src}" alt="картинка">
+                <div class="card-body">
+                    <h5 class="card-title">${data.title}</h5>
+                    <p class="card-text">${data.text}</p>
+                    <button class="btn btn-primary">Нажми на меня</button>
+                </div>
+            </div>
+        `
+    )
+}
+
+render(data) {
+    const html = this.getHTML(data)
+    this.parent.insertAdjacentHTML('beforeend', html)
+}
+```
+
+Теперь у нас функция `render` принимает данные, которые будет отрисовывать. При вызове компонента нам необходимо прокидывать тестывое данные со страницы, потом это мы заменим на получение данных с бекенда.
+
+* Прокидываем тестовые данные в компонент со страницы
+
+```js
+getData() {
+    return {
+        id: 1,
+        src: "https://i.pinimg.com/originals/c9/ea/65/c9ea654eb3a7398b1f702c758c1c4206.jpg",
+        title: "Акция",
+        text: "У меня есть крутая акция"
+    }
+}
+
+render() {
+    const data = this.getData()
+    const productCard = new ProductCardComponent(this.parent)
+    productCard.render(data)
+}
+```
+
+![Фото 7](./assets/photo7.png)
+
+Отлично, данные отображаются. Теперт нам хотелось бы отрисовать больше чем один компонент. У нас может приходить список данных, для отрисовки в карточках, а сейчам мы умеем рисовать только одну карточку. Для этого нам нужно добавить родительски элемент на главной странице. В этот элемент мы будем добавлять все наши компоненты.
+
+* Добавляем родительский элемент
+
+```js
+get pageRoot() {
+    return document.getElementById('main-page')
+}
+    
+getHTML() {
+    return (
+        `
+            <div id="main-page" class="d-flex flex-wrap"><div/>
+        `
+    )
+}
+    
+render() {
+    this.parent.innerHTML = ''
+    const html = this.getHTML()
+    this.parent.insertAdjacentHTML('beforeend', html)
+
+    const data = this.getData()
+    const productCard = new ProductCardComponent(this.pageRoot)
+    productCard.render(data)
+}
+```
+
+У нас есть элемент, в который мы будем добавлять наши дочерние компоненты. Теперь надо изменить логику так, чтобы мы умели работать с массивом данных, а не с одним элементом.
+
+* Перерабатываем логику для работы с массивом данных
+
+```js
+getData() {
+    return [
+        {
+            id: 1,
+            src: "https://i.pinimg.com/originals/c9/ea/65/c9ea654eb3a7398b1f702c758c1c4206.jpg",
+            title: "Акция",
+            text: "Такой акции вы еще не видели 1"
+        },
+        {
+            id: 2,
+            src: "https://i.pinimg.com/originals/c9/ea/65/c9ea654eb3a7398b1f702c758c1c4206.jpg",
+            title: "Акция",
+            text: "Такой акции вы еще не видели 2"
+        },
+        {
+            id: 3,
+            src: "https://i.pinimg.com/originals/c9/ea/65/c9ea654eb3a7398b1f702c758c1c4206.jpg",
+            title: "Акция",
+            text: "Такой акции вы еще не видели 3"
+        },
+    ]
+}
+    
+render() {
+    this.parent.innerHTML = ''
+    const html = this.getHTML()
+    this.parent.insertAdjacentHTML('beforeend', html)
+    
+    const data = this.getData()
+    data.forEach((item) => {
+        const productCard = new ProductCardComponent(this.pageRoot)
+        productCard.render(item)
+    })
+}
+```
+
+![Фото 8](./assets/photo8.png)
+
+Мы смогли отрисовать сразу несколько компонентов, но если мы попробуем нажать на кнопку, то ничего не произойдет. Добавим обработчики нажатия на кнопку. Для того, чтобы нам это сделать нужно внутри компонента подписаться на собитие клик по кнопке и обработать вызов этой функции. Функция, которая будет срабатывать по клику будем прокидывать в компонент из страницы.
+
+* Добавим нашей кнопку уникальный id, чтобы по нему мы могли найти кнопку и подписаться на событие клика
+
+```js
+<button class="btn btn-primary" id="click-card-${data.id}" data-id="${data.id}">Нажми на меня</button>
+```
+
+У кнопки появился уникальный id и мы можем подписаться на клик по этой кнопки. Для подписки на событие используем функцию **addEventListener**
+
+* Добавляем подписку на нажатие кнопки
+
+```js
+addListeners(data, listener) {
+    document
+        .getElementById(`click-card-${data.id}`)
+        .addEventListener("click", listener)
+}
+
+render(data, listener) {
+    const html = this.getHTML(data)
+    this.parent.insertAdjacentHTML('beforeend', html)
+    this.addListeners(data, listener)
+}
+```
+
+У кнопки в нашей появился обработчик, который будет срабатывать при нажатии на нее. Добавим на главной странице функцию, которая будет срабатывать по нажатию и прокинем ее в компонент. При создании кнопки мы добавли ей data атрибут, чтобы при обработке мы могли его достать и узнать по какому элементу мы нажали.
+
+* Добавляем обработчик на главной странице
+
+```js
+clickCard(e) {
+    const cardId = e.target.dataset.id
+}
+
+const productCard = new ProductCardComponent(this.pageRoot)
+productCard.render(item, this.clickCard.bind(this))
+```
+
+Теперь у нас есть все что нам нужно, осталось создать вторую страницу и нарисовать ее.
+
+***По итогу мы имеем следующую структуру проекта.***
+
+```bash
+├── node_modules/
+├── .gitignore
+├── package-lock.json
+├── package.json
+└── pages
+    └── main
+        └── index.js
+└── components
+    └── product-card
+        └── index.js
+├── index.html
+├── main.js
+```
+
+## 9. Верстка страницы продукта
+
+У нас есть главная страница, добавим страницу продукта.
+
+* Создаем страницу продукта `pages/product/index.js`. Наша страница будет принимать дополнительный аргумент id, номер выбранной страницы
+
+```js
+export class ProductPage {
+    constructor(parent, id) {
+        this.parent = parent
+        this.id = id
+    }
+
+    getData() {
+        return {
+            id: 1,
+            src: "https://i.pinimg.com/originals/c9/ea/65/c9ea654eb3a7398b1f702c758c1c4206.jpg",
+            title: `Акция ${this.id}`,
+            text: "Такой акции вы еще не видели"
+        }
+    }
+
+    get pageRoot() {
+        return document.getElementById('product-page')
+    }
+
+    getHTML() {
+        return (
+            `
+                <div id="product-page"></div>
+            `
+        )
+    }
+
+    render() {
+        this.parent.innerHTML = ''
+        const html = this.getHTML()
+        this.parent.insertAdjacentHTML('beforeend', html)
+    }
+}
+```
+
+У нас есть страница продукта, нужна создать компонент, который мы будем отрисовывать на этой странице.
+
+* Создаем компонент продукта `components/product/index.js`
+
+```js
+export class ProductComponent {
+    constructor(parent) {
+        this.parent = parent
+    }
+
+    getHTML(data) {
+        return (
+            `
+                <div class="card mb-3" style="width: 540px;">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="${data.src}" class="img-fluid" alt="картинка">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">${data.title}</h5>
+                                <p class="card-text">${data.text}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `
+        )
+    }
+
+    render(data) {
+        const html = this.getHTML(data)
+        this.parent.insertAdjacentHTML('beforeend', html)
+    }
+}
+```
+
+* Добавим отрисовку компонента на странице продукта
+
+```js
+import {ProductComponent} from "../../components/product/index.js";
+
+// ...
+
+render() {
+    this.parent.innerHTML = ''
+    const html = this.getHTML()
+    this.parent.insertAdjacentHTML('beforeend', html)
+
+    const data = this.getData()
+    const product = new ProductComponent(this.pageRoot)
+    product.render(data)
+}
+```
+
+У нас есть страница продукта, сделаем так, чтобы при нажатии на карточку на главной странице у нас открывалась страница продукта.
+
+* Добавляем открытие страницы продукта при нажатии на карточку
+
+```js
+import {ProductPage} from "../product/index.js";
+
+// ...
+
+clickCard(e) {
+    const cardId = e.target.dataset.id
+
+    const productPage = new ProductPage(this.parent, cardId)
+    productPage.render()
+}
+```
+
+![Фото 9](./assets/photo9.png)
+
+Все работает. При нажатии на кнопку в карточке на главной странице у нас открывается страница продукта. Для удобства добавим кнопку, которая будет возвращать на главную страницу.
+
+* Создаем компонент `components/back-button/index.js`
+
+```js
+export class BackButtonComponent {
+    constructor(parent) {
+        this.parent = parent;
+    }
+
+    addListeners(listener) {
+        document
+            .getElementById("back-button")
+            .addEventListener("click", listener)
+    }
+
+    getHTML() {
+        return (
+            `
+                <button id="back-button" class="btn btn-primary" type="button">Назад</button>
+            `
+        )
+    }
+
+    render(listener) {
+        const html = this.getHTML()
+        this.parent.insertAdjacentHTML('beforeend', html)
+        this.addListeners(listener)
+    }
+}
+```
+
+* Добавляем кнопку на страницу продукта и ее обработчик
+
+```js
+import {BackButtonComponent} from "../../components/back-button/index.js";
+import {MainPage} from "../main/index.js";
+
+// ...
+
+clickBack() {
+    const mainPage = new MainPage(this.parent)
+    mainPage.render()
+}
+
+render() {
+    this.parent.innerHTML = ''
+    const html = this.getHTML()
+    this.parent.insertAdjacentHTML('beforeend', html)
+
+    const backButton = new BackButtonComponent(this.pageRoot)
+    backButton.render(this.clickBack.bind(this))
+
+    const data = this.getData()
+    const stock = new ProductCardComponent(this.pageRoot)
+    stock.render(data)
+}
+```
+
+![Фото 10](./assets/photo10.png)
+
+Все работает, если нажать на кнопку, то мы вернемся обратно на главную страницу. На этом лабораторная работа закончилась.
+
+***По итогу мы имеем следующую структуру проекта.***
+
+```bash
+├── node_modules/
+├── .gitignore
+├── package-lock.json
+├── package.json
+└── pages
+    └── main
+        └── index.js
+    └── product
+        └── index.js
+└── components
+    └── product-card
+        └── index.js
+    └── product
+        └── index.js
+    └── back-button
+        └── index.js
+├── index.html
+├── main.js
+```
+
+## Дополнительные материалы
+
+Создать двухстраничное приложение из примера по вариантам.
+Вариант состоит из темы и компонента, который необходимо использовать.
+Все данные должны соответствовать вашей теме.
+Компонент можно применить по своему усмотрению.
+
+Варианты:
+
+1. Тема - собаки, Компонент - [аккордеон](https://bootstrap-4.ru/docs/5.2/components/accordion/).
+2. Тема - кошки, Компонент - [уведомления](https://bootstrap-4.ru/docs/5.2/components/alerts/).
+3. Тема - продукты, Компонент - [значки](https://bootstrap-4.ru/docs/5.2/components/badge/).
+4. Тема - учебные предметы, Компонент - [карусель](https://bootstrap-4.ru/docs/5.2/components/carousel/).
+5. Тема - дизайн, Компонент - [информер](https://bootstrap-4.ru/docs/5.2/components/popovers/).
+6. Тема - финансы, Компонент - [всплывающие сообщения](https://bootstrap-4.ru/docs/5.2/components/toasts/).
+7. Тема - фотографии, Компонент - [группа кнопок](https://bootstrap-4.ru/docs/5.2/components/button-group/).
+
+## Полезные ссылки
+
+1. Почитать про **document** [тут][document]
+2. Почитать про **getElementById** [тут][getElementById]
+3. Почитать про **insertAdjacentHTML** [тут][insertAdjacentHTML]
+4. Почитать про **event** [тут][event]
+5. Почитать про **addEventListener** [тут][addEventListener]
+
+[vs-code]: https://code.visualstudio.com
+[vs-code-live-server]: https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer
+[v8]: https://v8.dev
+[node]: https://nodejs.org
+[node-install]: https://nodejs.org/en/download
+[npm]: https://www.npmjs.com
+[package.json]: https://docs.npmjs.com/cli/v9/configuring-npmpackage-json
+[package-lock.json]: https://docs.npmjs.com/cli/v9/configuring-npm/package-lock-json
+[dom-api]: https://learn.javascript.ru/dom-nodes
+[about-gitignore]: https://tyapk.ru/blog/post/gitignore
+[bootstrap]: https://bootstrap-4.ru
+[bootstrap-npm]: https://www.npmjs.com/package/bootstrap
+[bootstrap-card]: https://bootstrap-4.ru/docs/5.2/components/card
+[document]: https://developer.mozilla.org/ru/docs/Web/API/Document
+[getElementById]: https://developer.mozilla.org/ru/docs/Web/API/Document/getElementById
+[insertAdjacentHTML]: https://developer.mozilla.org/ru/docs/Web/API/Element/insertAdjacentHTML
+[event]: https://developer.mozilla.org/ru/docs/Web/API/Event
+[addEventListener]: https://developer.mozilla.org/ru/docs/Web/API/EventTarget/addEventListener
