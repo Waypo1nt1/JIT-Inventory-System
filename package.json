@@ -2,22 +2,30 @@
   "name": "jit-inventory-system",
   "version": "1.0.0",
   "description": "**Цель** данной лабораторной работы - знакомство с node, npm, написание простого приложения на JavaScript. В ходе выполнения работы, вам предстоит ознакомиться с кодом реализации простого интерфейса и вывода данных, и затем выполнить задания по варианту.",
-  "homepage": "https://github.com/Waypo1nt1/JIT-Inventory-System#readme",
-  "bugs": {
-    "url": "https://github.com/Waypo1nt1/JIT-Inventory-System/issues"
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Waypo1nt1/JIT-Inventory-System.git"
   },
-  "license": "ISC",
+  "keywords": [],
   "author": "",
+  "license": "ISC",
   "type": "commonjs",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "bugs": {
+    "url": "https://github.com/Waypo1nt1/JIT-Inventory-System/issues"
   },
+  "homepage": "https://github.com/Waypo1nt1/JIT-Inventory-System#readme",
   "dependencies": {
-    "bootstrap": "^5.3.8"
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "morgan": "^1.10.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
   }
 }
