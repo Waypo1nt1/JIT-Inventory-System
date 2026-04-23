@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "src": "https://placehold.co/600x400/eaf1f8/1937FF?text=Zavod+PromStal",
+    "title": "Завод ПромСталь",
+    "text": "Надежный поставщик листового металла и арматуры.",
+    "minBatch": 500,
+    "deliveryTerms": "Доставка до порта"
+  },
+  {
+    "id": 2,
+    "src": "https://placehold.co/600x400/eaf1f8/1937FF?text=OOO+TechnoDetal",
+    "title": "ООО ТехноДеталь",
+    "text": "Производство крепежных элементов и метизов по ГОСТ.",
+    "minBatch": 1000,
+    "deliveryTerms": "Самовывоз со склада"
+  },
+  {
+    "id": 3,
+    "src": "https://placehold.co/600x400/eaf1f8/1937FF?text=Global+Plastics",
+    "title": "Global Plastics",
+    "text": "Поставки промышленного пластика и полимеров.",
+    "minBatch": 250,
+    "deliveryTerms": "Доставка с оплатой пошлин"
+  }
+]
