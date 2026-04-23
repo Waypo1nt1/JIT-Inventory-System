@@ -1,15 +1,17 @@
-export class ServiceCardComponent {
+export class SupplyCardComponent {
     constructor(parent) {
         this.parent = parent;
     }
 
-    cleanServiceData(arr) {
+    // 1.10 ДЗ очистка массива
+    cleanSupplyTerms(arr) {
         return arr.filter(item => item !== false && item !== undefined && item !== '' && item !== 0 && item !== null);
     }
 
-    checkServiceCompatibility(arr1, arr2) {
+    // 2.9 ДЗ сравнение массивов (Map)
+    checkSupplyCompatibility(arr1, arr2) {
         if (arr1.length !== arr2.length) return false;
-        const countMap = new Map(); 
+        const countMap = new Map();
         for (let item of arr1) {
             countMap.set(item, (countMap.get(item) || 0) + 1);
         }
@@ -23,23 +25,22 @@ export class ServiceCardComponent {
     }
 
     getHTML(data) {
-        const rawTags = [data.title.split(' ')[0], "", null, "JIT", false, 0, undefined];
+        const rawTerms = [data.title.split(' ')[0], "", null, "Надежный", false, 0, undefined];
+        const cleanTerms = this.cleanSupplyTerms(rawTerms);
 
-        const cleanTags = this.cleanServiceData(rawTags);
-        
-        const standardJitTags = ["JIT", cleanTags[0]]; 
-        const isCompatible = this.checkServiceCompatibility(cleanTags, standardJitTags);
+        const standardJitTerms = ["Надежный", cleanTerms[0]];
+        const isCompatible = this.checkSupplyCompatibility(cleanTerms, standardJitTerms);
 
-        const badgesHtml = cleanTags.map(tag => `<span class="badge bg-secondary me-1">${tag}</span>`).join('');
-        const compatibilityBadge = isCompatible 
-            ? `<span class="badge bg-success mt-2">100% Совместимо</span>` 
-            : `<span class="badge bg-warning text-dark mt-2">Требует настройки</span>`;
+        const badgesHtml = cleanTerms.map(tag => `<span class="badge bg-secondary me-1">${tag}</span>`).join('');
+        const compatibilityBadge = isCompatible
+            ? `<span class="badge bg-success mt-2">Соответствует JIT</span>`
+            : `<span class="badge bg-warning text-dark mt-2">Требует проверки</span>`;
 
         return (
             `
             <div class="col d-flex justify-content-center">
                 <div class="card h-100 w-100" style="max-width: 300px;">
-                    <img class="card-img-top" src="${data.src}" alt="Услуга" style="height: 200px; object-fit: cover;">
+                    <img class="card-img-top" src="${data.src}" alt="Поставщик" style="height: 200px; object-fit: cover;">
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title" style="color: #1937FF; font-weight: bold;">${data.title}</h5>
                         <div class="mb-2">
@@ -48,8 +49,9 @@ export class ServiceCardComponent {
                             ${compatibilityBadge}
                         </div>
                         <p class="card-text">${data.text}</p>
-                        <h6 class="mt-auto mb-3">Цена: ${data.price} ₽</h6>
-                        <button class="btn btn-primary" id="click-card-${data.id}" data-id="${data.id}">Подробнее</button>
+                        <h6 class="mt-auto">Условия: ${data.deliveryTerms}</h6>
+                        <h6 class="mb-3">Мин. партия: ${data.minBatch} шт.</h6>
+                        <button class="btn btn-primary" id="click-card-${data.id}" data-id="${data.id}">Сформировать заявку</button>
                     </div>
                 </div>
             </div>

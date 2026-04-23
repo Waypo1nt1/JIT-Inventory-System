@@ -5,7 +5,7 @@ import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
-export class ServicePage {
+export class SupplyPage {
     constructor(parent, id) {
         this.parent = parent;
         this.id = id;
@@ -15,15 +15,14 @@ export class ServicePage {
 
     getData() {
         const allData = [
-            { id: 1, src: "https://placehold.co/600x400/eaf1f8/1937FF?text=Cross-Docking", title: "Кросс-докинг", text: "Прямая перегрузка товара без долгосрочного хранения. Идеально для JIT.", price: 15000, modelUrl: "models/Truck.glb" },
-            { id: 2, src: "https://placehold.co/600x400/eaf1f8/1937FF?text=Customs+Clearance", title: "Таможенное оформление", text: "Быстрая очистка грузов для бесперебойных международных поставок.", price: 25000, modelUrl: "models/Pallet.glb" },
-            { id: 3, src: "https://placehold.co/600x400/eaf1f8/1937FF?text=JIT+Delivery", title: "JIT-Доставка", text: "Точная доставка к определенному часу прямо на конвейер производства.", price: 30000, modelUrl: "models/Truck.glb" },
-            { id: 4, src: "https://placehold.co/600x400/eaf1f8/1937FF?text=Inventory+Audit", title: "Аудит запасов", text: "Проверка оборачиваемости товаров и оптимизация складских остатков.", price: 10000, modelUrl: "models/Pallet.glb" }
+            { id: 1, src: "https://placehold.co/600x400/eaf1f8/1937FF?text=Fabric+PromSteel", title: "Завод ПромСталь", text: "Надежный поставщик листового металла и арматуры.", minBatch: 500, deliveryTerms: "FOB (Доставка до порта)", modelUrl: "models/Truck.glb" },
+            { id: 2, src: "https://placehold.co/600x400/eaf1f8/1937FF?text=OOO+TechnoDetail", title: "ООО ТехноДеталь", text: "Производство крепежных элементов и метизов по ГОСТ.", minBatch: 1000, deliveryTerms: "EXW (Самовывоз со склада)", modelUrl: "models/Pallet.glb" },
+            { id: 3, src: "https://placehold.co/600x400/eaf1f8/1937FF?text=Global+Plastics", title: "Global Plastics", text: "Поставки промышленного пластика и полимеров.", minBatch: 250, deliveryTerms: "DDP (Доставка с оплатой пошлин)", modelUrl: "models/Truck.glb" }
         ];
         return allData.find(item => item.id == this.id);
     }
 
-    mergeServiceOptions(...objects) {
+    mergeRequestOptions(...objects) {
         const result = {};
         for (let obj of objects) {
             for (let key in obj) {
@@ -35,16 +34,16 @@ export class ServicePage {
         return result;
     }
 
-    getHTML(data, finalConfig) {
+    getHTML(data, finalRequest) {
         return (
             `
             <div class="container mt-4">
-                <div id="service-page" class="d-flex flex-column align-items-center">
+                <div id="supply-page" class="d-flex flex-column align-items-center">
                     <div class="card mb-3 shadow-lg w-100" style="max-width: 1000px; border: 2px solid #E31836;">
                         <div class="row g-0">
                             <div class="col-md-7 d-flex flex-column" style="background: #e6ebf5; position: relative;">
                                 <canvas id="viewer-canvas" style="width: 100%; height: 400px; display: block;"></canvas>
-                                
+
                                 <div class="d-flex justify-content-center p-2 bg-light border-top">
                                     <div class="btn-group me-3" role="group">
                                         <button id="zoom-in" class="btn btn-outline-primary btn-sm">+</button>
@@ -63,19 +62,19 @@ export class ServicePage {
                                 <div class="card-body d-flex flex-column h-100">
                                     <h3 id="model-title" class="card-title" style="color: #1937FF; font-weight: bold;">${data.title}</h3>
                                     <p class="card-text">${data.text}</p>
-                                    
+
                                     <div class="mt-4 p-3 border rounded" style="background-color: #eaf1f8;">
-                                        <h5>Спецификация тарифа:</h5>
+                                        <h5>Сформированная Заявка (JIT):</h5>
                                         <ul class="list-unstyled mb-0">
-                                            <li><b>Базовая цена:</b> ${finalConfig.price} ₽</li>
-                                            <li><b>Валюта:</b> ${finalConfig.currency}</li>
-                                            <li><b>Срочность:</b> ${finalConfig.speed}</li>
-                                            <li><b>Страховка:</b> ${finalConfig.insurance ? 'Включена' : 'Нет'}</li>
+                                            <li><b>Завод-получатель:</b> ${finalRequest.factoryLine}</li>
+                                            <li><b>Объем заказа:</b> ${finalRequest.orderVolume} шт.</li>
+                                            <li><b>Условия поставки:</b> ${finalRequest.deliveryTerms}</li>
+                                            <li><b>Доставка:</b> ${finalRequest.urgency}</li>
                                         </ul>
                                     </div>
 
                                     <div class="mt-auto pt-3">
-                                        <button class="btn btn-primary btn-lg w-100">Оформить услугу</button>
+                                        <button class="btn btn-success btn-lg w-100">Подтвердить заявку</button>
                                     </div>
                                 </div>
                             </div>
@@ -116,6 +115,12 @@ export class ServicePage {
         scene.add(dirLight);
 
         const loader = new GLTFLoader();
+
+        const fallbackGeom = new THREE.BoxGeometry(1.5, 1.5, 1.5);
+        const fallbackMat = new THREE.MeshStandardMaterial({ color: 0xE31836 });
+        const cube = new THREE.Mesh(fallbackGeom, fallbackMat);
+        cube.position.y = 0.75;
+
         if (modelUrl) {
             loader.load(
                 modelUrl,
@@ -126,13 +131,11 @@ export class ServicePage {
                 undefined,
                 (error) => {
                     console.error('Ошибка загрузки модели:', error);
-                    const geom = new THREE.BoxGeometry(1.5, 1.5, 1.5);
-                    const mat = new THREE.MeshStandardMaterial({ color: 0xE31836 });
-                    const cube = new THREE.Mesh(geom, mat);
-                    cube.position.y = 0.75;
                     scene.add(cube);
                 }
             );
+        } else {
+            scene.add(cube);
         }
 
         document.getElementById('zoom-in').onclick = () => {
@@ -151,10 +154,10 @@ export class ServicePage {
         const setCameraDirection = (dir) => {
             const d = distance();
             let x = 0, y = 2, z = 0;
-            if (dir === "front")  { x = 0; z = d; }
-            if (dir === "back")   { x = 0; z = -d; }
-            if (dir === "left")   { x = -d; z = 0; }
-            if (dir === "right")  { x = d; z = 0; }
+            if (dir === "front") { x = 0; z = d; }
+            if (dir === "back") { x = 0; z = -d; }
+            if (dir === "left") { x = -d; z = 0; }
+            if (dir === "right") { x = d; z = 0; }
             this.camera.position.set(x, y, z);
             this.controls.target.set(0, 1, 0);
             this.controls.update();
@@ -182,7 +185,7 @@ export class ServicePage {
             this.controls.update();
             renderer.render(scene, this.camera);
         };
-        
+
         animate();
         window.addEventListener('resize', resizeRendererToDisplaySize);
     }
@@ -191,14 +194,15 @@ export class ServicePage {
         this.parent.innerHTML = '';
         const data = this.getData();
 
-        const baseConfig = { price: data.price, currency: "RUB", speed: "Standard" };
-        const promoConfig = { price: data.price * 0.9, speed: "Express", insurance: true };
-        const finalConfig = this.mergeServiceOptions(baseConfig, promoConfig);
+        const myFactoryNeeds = { orderVolume: 2500, factoryLine: "Цех сборки №2", urgency: "Точно-в-срок (JIT)" };
+        const supplierBaseConfig = { orderVolume: data.minBatch, deliveryTerms: data.deliveryTerms };
 
-        const html = this.getHTML(data, finalConfig);
+        const finalRequest = this.mergeRequestOptions(supplierBaseConfig, myFactoryNeeds);
+
+        const html = this.getHTML(data, finalRequest);
         this.parent.insertAdjacentHTML('beforeend', html);
 
-        const backButton = new BackButtonComponent(document.getElementById('service-page'));
+        const backButton = new BackButtonComponent(document.getElementById('supply-page'));
         backButton.render(this.clickBack.bind(this));
 
         setTimeout(() => this.renderModel(data.modelUrl), 0);
