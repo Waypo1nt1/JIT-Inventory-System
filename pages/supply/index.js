@@ -15,9 +15,11 @@ export class SupplyPage {
 
     getData() {
         const allData = [
-            { id: 1, src: "https://placehold.co/600x400/eaf1f8/1937FF?text=Fabric+PromSteel", title: "Завод ПромСталь", text: "Надежный поставщик листового металла и арматуры.", minBatch: 500, deliveryTerms: "FOB (Доставка до порта)", modelUrl: "models/Truck.glb" },
-            { id: 2, src: "https://placehold.co/600x400/eaf1f8/1937FF?text=OOO+TechnoDetail", title: "ООО ТехноДеталь", text: "Производство крепежных элементов и метизов по ГОСТ.", minBatch: 1000, deliveryTerms: "EXW (Самовывоз со склада)", modelUrl: "models/Pallet.glb" },
-            { id: 3, src: "https://placehold.co/600x400/eaf1f8/1937FF?text=Global+Plastics", title: "Global Plastics", text: "Поставки промышленного пластика и полимеров.", minBatch: 250, deliveryTerms: "DDP (Доставка с оплатой пошлин)", modelUrl: "models/Truck.glb" }
+            { id: 1, src: "https://placehold.co/600x400/eaf1f8/1937FF?text=Zavod+PromStal", title: "Завод ПромСталь", text: "Надежный поставщик листового металла и арматуры.", minBatch: 500, deliveryTerms: "FOB (Доставка до порта)", modelUrl: "models/Truck.glb" },
+            { id: 2, src: "https://placehold.co/600x400/eaf1f8/1937FF?text=OOO+TechnoDetal", title: "ООО ТехноДеталь", text: "Производство крепежных элементов и метизов по ГОСТ.", minBatch: 1000, deliveryTerms: "EXW (Самовывоз со склада)", modelUrl: "models/Pallet.glb" },
+            { id: 3, src: "https://placehold.co/600x400/eaf1f8/1937FF?text=Global+Plastics", title: "Global Plastics", text: "Поставки промышленного пластика и полимеров.", minBatch: 250, deliveryTerms: "DDP (Доставка с оплатой пошлин)", modelUrl: "models/Truck.glb" },
+            { id: 4, src: "https://placehold.co/600x400/eaf1f8/1937FF?text=SibMet+Holding", title: "СибМет Холдинг", text: "Крупнейший сибирский дистрибьютор цветных сплавов.", minBatch: 2000, deliveryTerms: "FCA (Франко-перевозчик)", modelUrl: "models/Pallet.glb" },
+            { id: 5, src: "https://placehold.co/600x400/eaf1f8/1937FF?text=AutoGlass+Pro", title: "AutoGlass Pro", text: "Специализированное автомобильное стекло для сборочных линий.", minBatch: 100, deliveryTerms: "CIF (Стоимость и фрахт)", modelUrl: "models/Truck.glb" }
         ];
         return allData.find(item => item.id == this.id);
     }
@@ -74,7 +76,7 @@ export class SupplyPage {
                                     </div>
 
                                     <div class="mt-auto pt-3">
-                                        <button class="btn btn-success btn-lg w-100">Подтвердить заявку</button>
+                                        <button class="btn btn-primary btn-lg w-100">Оформить заявку</button>
                                     </div>
                                 </div>
                             </div>

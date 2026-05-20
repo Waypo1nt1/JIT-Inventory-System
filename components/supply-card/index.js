@@ -3,12 +3,10 @@ export class SupplyCardComponent {
         this.parent = parent;
     }
 
-    // 1.10 ДЗ очистка массива
     cleanSupplyTerms(arr) {
         return arr.filter(item => item !== false && item !== undefined && item !== '' && item !== 0 && item !== null);
     }
 
-    // 2.9 ДЗ сравнение массивов (Map)
     checkSupplyCompatibility(arr1, arr2) {
         if (arr1.length !== arr2.length) return false;
         const countMap = new Map();
@@ -43,11 +41,13 @@ export class SupplyCardComponent {
                     <img class="card-img-top" src="${data.src}" alt="Поставщик" style="height: 200px; object-fit: cover;">
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title" style="color: #1937FF; font-weight: bold;">${data.title}</h5>
+
                         <div class="mb-2">
                             ${badgesHtml}
                             <br>
                             ${compatibilityBadge}
                         </div>
+
                         <p class="card-text">${data.text}</p>
                         <h6 class="mt-auto">Условия: ${data.deliveryTerms}</h6>
                         <h6 class="mb-3">Мин. партия: ${data.minBatch} шт.</h6>
