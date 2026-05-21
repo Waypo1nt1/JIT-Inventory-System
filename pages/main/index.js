@@ -1,19 +1,13 @@
 import { SupplyCardComponent } from "../../components/supply-card/index.js";
 import { SupplyPage } from "../supply/index.js";
+import { SupplyEditPage } from "../supply-edit/index.js";
+import { ajax } from "../../modules/ajax.js";
+import { supplyUrls } from "../../modules/supplyUrls.js";
 
 export class MainPage {
     constructor(parent) {
         this.parent = parent;
-    }
-
-    getData() {
-        return [
-            { id: 1, src: "https://placehold.co/600x400/eaf1f8/1937FF?text=Zavod+PromStal", title: "Завод ПромСталь", text: "Надежный поставщик листового металла и арматуры.", minBatch: 500, deliveryTerms: "FOB (Доставка до порта)", modelUrl: "models/Truck.glb" },
-            { id: 2, src: "https://placehold.co/600x400/eaf1f8/1937FF?text=OOO+TechnoDetal", title: "ООО ТехноДеталь", text: "Производство крепежных элементов и метизов по ГОСТ.", minBatch: 1000, deliveryTerms: "EXW (Самовывоз со склада)", modelUrl: "models/Pallet.glb" },
-            { id: 3, src: "https://placehold.co/600x400/eaf1f8/1937FF?text=Global+Plastics", title: "Global Plastics", text: "Поставки промышленного пластика и полимеров.", minBatch: 250, deliveryTerms: "DDP (Доставка с оплатой пошлин)", modelUrl: "models/Truck.glb" },
-            { id: 4, src: "https://placehold.co/600x400/eaf1f8/1937FF?text=SibMet+Holding", title: "СибМет Холдинг", text: "Крупнейший сибирский дистрибьютор цветных сплавов.", minBatch: 2000, deliveryTerms: "FCA (Франко-перевозчик)", modelUrl: "models/Pallet.glb" },
-            { id: 5, src: "https://placehold.co/600x400/eaf1f8/1937FF?text=AutoGlass+Pro", title: "AutoGlass Pro", text: "Специализированное автомобильное стекло для сборочных линий.", minBatch: 100, deliveryTerms: "CIF (Стоимость и фрахт)", modelUrl: "models/Truck.glb" }
-        ];
+        this.data = [];
     }
 
     get pageRoot() {
@@ -45,28 +39,46 @@ export class MainPage {
         supplyPage.render();
     }
 
-    filterData(query) {
-        const allData = this.getData();
-        const filteredData = [];
-        let tempArray = [...allData];
-
-        if (tempArray.length > 0) {
-            do {
-                let item = tempArray.shift();
-                if (item.title.toLowerCase().includes(query.toLowerCase())) {
-                    filteredData.push(item);
-                }
-            } while (tempArray.length > 0);
-        }
-
-        return filteredData;
+    clickEdit(e) {
+        const cardId = e.target.dataset.id;
+        const editPage = new SupplyEditPage(this.parent, cardId);
+        editPage.render();
     }
 
-    renderData(data) {
+    clickDelete(e) {
+        const cardId = e.target.dataset.id;
+        if (confirm("Вы уверены, что хотите удалить поставщика?")) {
+            ajax.delete(supplyUrls.deleteSupplyById(cardId), (data, status) => {
+                if (status === 204 || status === 200) {
+                    this.loadSupplies();
+                } else {
+                    console.error("Ошибка при удалении", status);
+                }
+            });
+        }
+    }
+
+    renderData(items) {
+        if (!this.pageRoot) return;
         this.pageRoot.innerHTML = '';
-        data.forEach((item) => {
+        items.forEach((item) => {
             const card = new SupplyCardComponent(this.pageRoot);
-            card.render(item, this.clickCard.bind(this));
+            card.render(
+                item,
+                this.clickCard.bind(this),
+                this.clickEdit.bind(this),
+                this.clickDelete.bind(this)
+            );
+        });
+    }
+
+    loadSupplies(query = '') {
+        ajax.get(supplyUrls.getSupplies(query), (data, status) => {
+            if (status === 200) {
+                this.renderData(data);
+            } else {
+                console.error("Ошибка при загрузке данных", status);
+            }
         });
     }
 
@@ -75,12 +87,11 @@ export class MainPage {
         const html = this.getHTML();
         this.parent.insertAdjacentHTML('beforeend', html);
 
-        this.renderData(this.getData());
+        this.loadSupplies();
 
         document.getElementById('search-btn').addEventListener('click', () => {
             const query = document.getElementById('search-input').value;
-            const filtered = this.filterData(query);
-            this.renderData(filtered);
+            this.loadSupplies(query);
         });
     }
 }

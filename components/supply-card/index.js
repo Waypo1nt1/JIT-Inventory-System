@@ -41,17 +41,18 @@ export class SupplyCardComponent {
                     <img class="card-img-top" src="${data.src}" alt="Поставщик" style="height: 200px; object-fit: cover;">
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title" style="color: #1937FF; font-weight: bold;">${data.title}</h5>
-
                         <div class="mb-2">
-                            ${badgesHtml}
-                            <br>
-                            ${compatibilityBadge}
+                            ${badgesHtml}<br>${compatibilityBadge}
                         </div>
-
                         <p class="card-text">${data.text}</p>
                         <h6 class="mt-auto">Условия: ${data.deliveryTerms}</h6>
                         <h6 class="mb-3">Мин. партия: ${data.minBatch} шт.</h6>
-                        <button class="btn btn-primary" id="click-card-${data.id}" data-id="${data.id}">Сформировать заявку</button>
+
+                        <button class="btn btn-primary btn-sm w-100 mb-2" id="click-card-${data.id}" data-id="${data.id}">Подробнее</button>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-outline-primary btn-sm w-50" id="edit-card-${data.id}" data-id="${data.id}">Редактировать</button>
+                            <button class="btn btn-outline-danger btn-sm w-50" id="delete-card-${data.id}" data-id="${data.id}">Удалить</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -59,13 +60,15 @@ export class SupplyCardComponent {
         );
     }
 
-    addListeners(data, listener) {
-        document.getElementById(`click-card-${data.id}`).addEventListener("click", listener);
+    addListeners(data, clickListener, editListener, deleteListener) {
+        document.getElementById(`click-card-${data.id}`).addEventListener("click", clickListener);
+        document.getElementById(`edit-card-${data.id}`).addEventListener("click", editListener);
+        document.getElementById(`delete-card-${data.id}`).addEventListener("click", deleteListener);
     }
 
-    render(data, listener) {
+    render(data, clickListener, editListener, deleteListener) {
         const html = this.getHTML(data);
         this.parent.insertAdjacentHTML('beforeend', html);
-        this.addListeners(data, listener);
+        this.addListeners(data, clickListener, editListener, deleteListener);
     }
 }

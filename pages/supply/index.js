@@ -1,5 +1,7 @@
 import { BackButtonComponent } from "../../components/back-button/index.js";
 import { MainPage } from "../main/index.js";
+import { ajax } from "../../modules/ajax.js";
+import { supplyUrls } from "../../modules/supplyUrls.js";
 
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
@@ -11,17 +13,6 @@ export class SupplyPage {
         this.id = id;
         this.camera = null;
         this.controls = null;
-    }
-
-    getData() {
-        const allData = [
-            { id: 1, src: "https://placehold.co/600x400/eaf1f8/1937FF?text=Zavod+PromStal", title: "Завод ПромСталь", text: "Надежный поставщик листового металла и арматуры.", minBatch: 500, deliveryTerms: "FOB (Доставка до порта)", modelUrl: "models/Truck.glb" },
-            { id: 2, src: "https://placehold.co/600x400/eaf1f8/1937FF?text=OOO+TechnoDetal", title: "ООО ТехноДеталь", text: "Производство крепежных элементов и метизов по ГОСТ.", minBatch: 1000, deliveryTerms: "EXW (Самовывоз со склада)", modelUrl: "models/Pallet.glb" },
-            { id: 3, src: "https://placehold.co/600x400/eaf1f8/1937FF?text=Global+Plastics", title: "Global Plastics", text: "Поставки промышленного пластика и полимеров.", minBatch: 250, deliveryTerms: "DDP (Доставка с оплатой пошлин)", modelUrl: "models/Truck.glb" },
-            { id: 4, src: "https://placehold.co/600x400/eaf1f8/1937FF?text=SibMet+Holding", title: "СибМет Холдинг", text: "Крупнейший сибирский дистрибьютор цветных сплавов.", minBatch: 2000, deliveryTerms: "FCA (Франко-перевозчик)", modelUrl: "models/Pallet.glb" },
-            { id: 5, src: "https://placehold.co/600x400/eaf1f8/1937FF?text=AutoGlass+Pro", title: "AutoGlass Pro", text: "Специализированное автомобильное стекло для сборочных линий.", minBatch: 100, deliveryTerms: "CIF (Стоимость и фрахт)", modelUrl: "models/Truck.glb" }
-        ];
-        return allData.find(item => item.id == this.id);
     }
 
     mergeRequestOptions(...objects) {
@@ -194,19 +185,22 @@ export class SupplyPage {
 
     render() {
         this.parent.innerHTML = '';
-        const data = this.getData();
 
-        const myFactoryNeeds = { orderVolume: 2500, factoryLine: "Цех сборки №2", urgency: "Точно-в-срок (JIT)" };
-        const supplierBaseConfig = { orderVolume: data.minBatch, deliveryTerms: data.deliveryTerms };
+        ajax.get(supplyUrls.getSupplyById(this.id), (data, status) => {
+            if (status === 200 && data) {
+                const myFactoryNeeds = { orderVolume: 2500, factoryLine: "Цех сборки №2", urgency: "Точно-в-срок (JIT)" };
+                const supplierBaseConfig = { orderVolume: data.minBatch, deliveryTerms: data.deliveryTerms };
 
-        const finalRequest = this.mergeRequestOptions(supplierBaseConfig, myFactoryNeeds);
+                const finalRequest = this.mergeRequestOptions(supplierBaseConfig, myFactoryNeeds);
 
-        const html = this.getHTML(data, finalRequest);
-        this.parent.insertAdjacentHTML('beforeend', html);
+                const html = this.getHTML(data, finalRequest);
+                this.parent.insertAdjacentHTML('beforeend', html);
 
-        const backButton = new BackButtonComponent(document.getElementById('supply-page'));
-        backButton.render(this.clickBack.bind(this));
+                const backButton = new BackButtonComponent(document.getElementById('supply-page'));
+                backButton.render(this.clickBack.bind(this));
 
-        setTimeout(() => this.renderModel(data.modelUrl), 0);
+                setTimeout(() => this.renderModel(), 0);
+            }
+        });
     }
 }
