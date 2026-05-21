@@ -22,5 +22,21 @@
     "text": "Поставки промышленного пластика и полимеров.",
     "minBatch": 250,
     "deliveryTerms": "Доставка с оплатой пошлин"
+  },
+  {
+    "id": 4,
+    "src": "https://placehold.co/600x400/eaf1f8/1937FF?text=SibMet+Holding",
+    "title": "СибМет Холдинг",
+    "text": "Крупнейший сибирский дистрибьютор цветных сплавов.",
+    "minBatch": 2000,
+    "deliveryTerms": "Франко-перевозчик"
+  },
+  {
+    "id": 5,
+    "src": "https://placehold.co/600x400/eaf1f8/1937FF?text=AutoGlass+Pro",
+    "title": "AutoGlass Pro",
+    "text": "Специализированное автомобильное стекло для сборочных линий.",
+    "minBatch": 100,
+    "deliveryTerms": "Стоимость и фрахт"
   }
 ]
