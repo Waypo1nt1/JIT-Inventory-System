@@ -21,6 +21,10 @@ class SupplyUrls {
     deleteSupplyById(id) {
         return `${this.baseUrl}/supplies/${id}`;
     }
+
+    updateSupplyById(id) {
+        return `${this.baseUrl}/supplies/${id}`;
+    }
 }
 
 export const supplyUrls = new SupplyUrls();
