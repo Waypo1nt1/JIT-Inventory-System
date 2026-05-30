@@ -47,15 +47,13 @@ export class MainPage {
 
     clickDelete(e) {
         const cardId = e.target.dataset.id;
-        if (confirm("Вы уверены, что хотите удалить поставщика?")) {
-            ajax.delete(supplyUrls.deleteSupplyById(cardId), (data, status) => {
-                if (status === 204 || status === 200) {
-                    this.loadSupplies();
-                } else {
-                    console.error("Ошибка при удалении", status);
-                }
-            });
-        }
+        ajax.delete(supplyUrls.deleteSupplyById(cardId), (data, status) => {
+            if (status === 204 || status === 200) {
+                this.loadSupplies();
+            } else {
+                console.error("Ошибка при удалении", status);
+            }
+        });
     }
 
     renderData(items) {
